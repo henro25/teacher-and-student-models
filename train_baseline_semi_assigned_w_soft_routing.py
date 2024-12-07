@@ -103,16 +103,28 @@ class MoE(nn.Module):
 
     def forward(self, x, return_router_assignments=False):
         batch_size = x.size(0)
-        gating_probs = self.gating_net(x.view(batch_size, -1))  # Router probabilities
-        best_experts = gating_probs.argmax(dim=1)  # Selected experts for each input
+        # Get routing probabilities from the gating network
+        gating_probs = self.gating_net(x.view(batch_size, -1))  # Shape: [batch_size, num_students]
 
-        outputs = torch.zeros(batch_size, self.students[0].network[-1].out_features).to(x.device)
-        for i, expert_idx in enumerate(best_experts):
-            outputs[i] = self.students[expert_idx](x[i].unsqueeze(0)).squeeze(0)
+        if self.training:
+            # Soft Routing: Weighted sum of all experts
+            expert_outputs = torch.stack([student(x) for student in self.students], dim=1)  # [batch_size, num_students, num_classes]
+            gating_probs = gating_probs.unsqueeze(2)  # [batch_size, num_students, 1]
+            outputs = (expert_outputs * gating_probs).sum(dim=1)  # [batch_size, num_classes]
+            if return_router_assignments:
+                best_experts = gating_probs.squeeze(2).argmax(dim=1)  # For monitoring purposes
+                return outputs, best_experts
+            return outputs
+        else:
+            # Hard Routing: Select top-1 expert
+            best_experts = gating_probs.argmax(dim=1)  # [batch_size]
+            outputs = torch.zeros(batch_size, self.students[0].network[-1].out_features).to(x.device)
+            for i, expert_idx in enumerate(best_experts):
+                outputs[i] = self.students[expert_idx](x[i].unsqueeze(0)).squeeze(0)
+            if return_router_assignments:
+                return outputs, best_experts
+            return outputs
 
-        if return_router_assignments:
-            return outputs, best_experts
-        return outputs
 
 def distill_teacher_to_student(teacher, student, loader, optimizer, criterion, device):
     teacher.eval()

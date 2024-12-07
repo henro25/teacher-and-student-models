@@ -30,12 +30,9 @@ config = Config()
 
 def get_data_loaders():
     transform = transforms.Compose([
-        transforms.RandomCrop(32, padding=4),
-        transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         transforms.Normalize((0.5,), (0.5,))
     ])
-
     train_dataset = datasets.CIFAR10(root='./data', train=True, transform=transform, download=True)
     test_dataset = datasets.CIFAR10(root='./data', train=False, transform=transform, download=True)
 
@@ -77,20 +74,27 @@ class GatingNetwork(nn.Module):
     def __init__(self, num_students, input_dim):
         super(GatingNetwork, self).__init__()
         self.network = nn.Sequential(
-            nn.Linear(input_dim, 128),
+            nn.Conv2d(3, 16, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),
+            nn.Conv2d(16, 32, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),
+            
+            nn.Flatten(),
+            nn.Linear(32 * 8 * 8, 128),
             nn.ReLU(),
             nn.Dropout(0.2),
-            nn.Linear(128, 64),
-            nn.ReLU(),
-            nn.Linear(64, num_students)
+            nn.Linear(128, num_students)
         )
-        self.temperature = 10.0  # Start with higher temperature
+        self.temperature = 5.0
 
     def forward(self, x):
+        x = x.view(-1, 3, 32, 32)
         logits = self.network(x)
         return F.softmax(logits / self.temperature, dim=1)
 
-    def update_temperature(self, factor=0.95):
+    def update_temperature(self, factor=0.9):
         self.temperature *= factor
 
 
@@ -482,9 +486,9 @@ def main():
     # Step 1: Initialize and train the teacher model
     teacher = TeacherModel().to(device)
     print("Training the Teacher Model:")
-    teacher = train_teacher(teacher, train_loader, test_loader, device, epochs=config.epochs, lr=config.lr)
-    # teacher.load_state_dict(torch.load("teacher.pth", map_location=device, weights_only=True))
-    # teacher.eval()  # Ensure the teacher is in evaluation mode
+    # teacher = train_teacher(teacher, train_loader, test_loader, device, epochs=config.epochs, lr=config.lr)
+    teacher.load_state_dict(torch.load("teacher.pth", map_location=device, weights_only=True))
+    teacher.eval()  # Ensure the teacher is in evaluation mode
 
     # Step 2: Create the big class map from the teacher's logits
     print("\nCreating Big Class Map from Teacher:")
@@ -520,11 +524,11 @@ def main():
     # Step 6: Distill teacher knowledge into students
     print("\nDistilling Teacher Knowledge into Students:")
     for i, student in enumerate(students):
-        optimizer_student = AdamW(student.parameters(), lr=config.lr)
-        for epoch in range(config.epochs // 2):
-            distill_teacher_to_student(teacher, student, train_loader, optimizer_student, nn.CrossEntropyLoss(), device)
-        # student_path = "student_models/baseline_cnn_students/student_" + str(i) + ".pth"
-        # student.load_state_dict(torch.load(student_path, map_location=device))
+        # optimizer_student = AdamW(student.parameters(), lr=config.lr)
+        # for epoch in range(config.epochs // 2):
+            # distill_teacher_to_student(teacher, student, train_loader, optimizer_student, nn.CrossEntropyLoss(), device)
+        student_path = "student_models/baseline_cnn_students/student_" + str(i) + ".pth"
+        student.load_state_dict(torch.load(student_path, map_location=device))
     print("Distilled student models loaded successfully.")
 
     # Step 7: Jointly train the MoE

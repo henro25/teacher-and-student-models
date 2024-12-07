@@ -30,12 +30,9 @@ config = Config()
 
 def get_data_loaders():
     transform = transforms.Compose([
-        transforms.RandomCrop(32, padding=4),
-        transforms.RandomHorizontalFlip(),
         transforms.ToTensor(),
         transforms.Normalize((0.5,), (0.5,))
     ])
-
     train_dataset = datasets.CIFAR10(root='./data', train=True, transform=transform, download=True)
     test_dataset = datasets.CIFAR10(root='./data', train=False, transform=transform, download=True)
 
@@ -482,9 +479,9 @@ def main():
     # Step 1: Initialize and train the teacher model
     teacher = TeacherModel().to(device)
     print("Training the Teacher Model:")
-    teacher = train_teacher(teacher, train_loader, test_loader, device, epochs=config.epochs, lr=config.lr)
-    # teacher.load_state_dict(torch.load("teacher.pth", map_location=device, weights_only=True))
-    # teacher.eval()  # Ensure the teacher is in evaluation mode
+    # teacher = train_teacher(teacher, train_loader, test_loader, device, epochs=config.epochs, lr=config.lr)
+    teacher.load_state_dict(torch.load("teacher.pth", map_location=device, weights_only=True))
+    teacher.eval()  # Ensure the teacher is in evaluation mode
 
     # Step 2: Create the big class map from the teacher's logits
     print("\nCreating Big Class Map from Teacher:")
@@ -520,18 +517,18 @@ def main():
     # Step 6: Distill teacher knowledge into students
     print("\nDistilling Teacher Knowledge into Students:")
     for i, student in enumerate(students):
-        optimizer_student = AdamW(student.parameters(), lr=config.lr)
-        for epoch in range(config.epochs // 2):
-            distill_teacher_to_student(teacher, student, train_loader, optimizer_student, nn.CrossEntropyLoss(), device)
-        # student_path = "student_models/baseline_cnn_students/student_" + str(i) + ".pth"
-        # student.load_state_dict(torch.load(student_path, map_location=device))
+        # optimizer_student = AdamW(student.parameters(), lr=config.lr)
+        # for epoch in range(config.epochs // 2):
+            # distill_teacher_to_student(teacher, student, train_loader, optimizer_student, nn.CrossEntropyLoss(), device)
+        student_path = "student_models/baseline_cnn_students/student_" + str(i) + ".pth"
+        student.load_state_dict(torch.load(student_path, map_location=device))
     print("Distilled student models loaded successfully.")
 
     # Step 7: Jointly train the MoE
     print("\nJoint Training of Mixture of Experts (MoE):")
     moe_model = MoE(students, router).to(device)
-    optimizer_moe = AdamW(moe_model.parameters(), lr=config.lr)
-    train_moe(moe_model, train_loader, optimizer_moe, nn.CrossEntropyLoss(), device, epochs=config.epochs)
+    # optimizer_moe = AdamW(moe_model.parameters(), lr=config.lr)
+    # train_moe(moe_model, train_loader, optimizer_moe, nn.CrossEntropyLoss(), device, epochs=config.epochs)
 
     # Step 8: Evaluate the MoE model
     print("\nEvaluating Mixture of Experts (MoE):")

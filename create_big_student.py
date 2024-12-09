@@ -670,21 +670,21 @@ def main():
     single_student = StudentModel().to(device)
     optimizer_student = AdamW(single_student.parameters(), lr=config.lr)
 
-    # for epoch in range(config.epochs):
-    #     distill_teacher_to_student(teacher, single_student, train_loader, optimizer_student, nn.CrossEntropyLoss(), device)
+    for epoch in range(config.epochs):
+        distill_teacher_to_student(teacher, single_student, train_loader, optimizer_student, nn.CrossEntropyLoss(), device)
 
     # Save the single student model
-    # single_student_save_path = config.student_model_path.format(1)
-    # torch.save(single_student.state_dict(), single_student_save_path)
-    # print(f"Single Student saved to {single_student_save_path}")
+    single_student_save_path = "big_" + config.student_model_path.format(1)
+    torch.save(single_student.state_dict(), single_student_save_path)
+    print(f"Single Student saved to {single_student_save_path}")
     
     # Load the single student model
-    single_student_path = "student_1.pth"
-    single_student.load_state_dict(torch.load(single_student_path))
+    # single_student_path = "big_student_1.pth"
+    # single_student.load_state_dict(torch.load(single_student_path))
 
     print("\nDuplicating the Single Student:")
     # Load the pre-trained single student model
-    single_student_path = "student_1.pth"  # Ensure this is the correct path to your saved student model
+    single_student_path = "big_student_1.pth"  # Ensure this is the correct path to your saved student model
 
     students = []
     for i in range(config.num_students):

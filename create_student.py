@@ -384,6 +384,9 @@ def evaluate_with_metrics(model, loader, device, description="Model"):
     criterion = nn.CrossEntropyLoss()
     total_loss, correct = 0, 0
     total_samples = 0
+    
+    per_class_correct = defaultdict(int)
+    per_class_total = defaultdict(int)
 
     with torch.no_grad():
         for i, (inputs, targets) in enumerate(loader):
@@ -402,12 +405,21 @@ def evaluate_with_metrics(model, loader, device, description="Model"):
                 latency = (end_time - start_time) / batch_size
 
             outputs = model(inputs)
+            
+            for j, target in enumerate(targets):
+                per_class_correct[target.item()] += (outputs[j].argmax() == target).item()
+                per_class_total[target.item()] += 1
 
             loss = criterion(outputs, targets)
             total_loss += loss.item()
             correct += (outputs.argmax(1) == targets).sum().item()
             total_samples += batch_size
-
+            
+    # Calculate per-class accuracy
+    for class_id in per_class_correct:
+        per_class_accuracy = per_class_correct[class_id] / per_class_total[class_id]
+        print(f"Class {class_id} Accuracy: {per_class_accuracy:.4f}")
+        
     accuracy = correct / total_samples
     print(f"{description} Results:")
     print(f"Loss: {total_loss / len(loader):.4f}, Accuracy: {accuracy:.4f}")

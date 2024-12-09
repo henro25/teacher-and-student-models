@@ -637,6 +637,10 @@ def main():
 
     print("\nVisualizing Router Assignments:")
     visualize_router_assignments(router, test_loader, config.num_classes, config.num_students, device)
+    
+    # save the router model
+    router_save_path = "router.pth"
+    torch.save(router.state_dict(), router_save_path)
 
     # Step 6: Distill teacher knowledge into students
     print("\nDistilling Teacher Knowledge into a Single Student:")

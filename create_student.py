@@ -623,41 +623,50 @@ def main():
 
     # Step 5: Perform iterative router distillation
     print("\nDistilling Teacher Knowledge into the Router:")
-    criterion = nn.CrossEntropyLoss()
-    router = distill_teacher_to_router_with_clusters(
-        teacher=teacher,
-        router=router,
-        loader=train_loader,
-        optimizer=optimizer_router,
-        # criterion=criterion,
-        device=device,
-        big_class_map=big_class_map,
-        epochs=30
-    )
+    # criterion = nn.CrossEntropyLoss()
+    # router = distill_teacher_to_router_with_clusters(
+    #     teacher=teacher,
+    #     router=router,
+    #     loader=train_loader,
+    #     optimizer=optimizer_router,
+    #     # criterion=criterion,
+    #     device=device,
+    #     big_class_map=big_class_map,
+    #     epochs=30
+    # )
+    
+    # Load the router model
+    router_path = "router.pth"
+    router.load_state_dict(torch.load(router_path))
+    print(f"Router loaded from {router_path}")
 
     print("\nVisualizing Router Assignments:")
     visualize_router_assignments(router, test_loader, config.num_classes, config.num_students, device)
     
     # save the router model
-    router_save_path = "router.pth"
-    torch.save(router.state_dict(), router_save_path)
+    # router_save_path = "router.pth"
+    # torch.save(router.state_dict(), router_save_path)
 
     # Step 6: Distill teacher knowledge into students
     print("\nDistilling Teacher Knowledge into a Single Student:")
     single_student = StudentModel().to(device)
     optimizer_student = AdamW(single_student.parameters(), lr=config.lr)
 
-    for epoch in range(config.epochs):
-        distill_teacher_to_student(teacher, single_student, train_loader, optimizer_student, nn.CrossEntropyLoss(), device)
+    # for epoch in range(config.epochs):
+    #     distill_teacher_to_student(teacher, single_student, train_loader, optimizer_student, nn.CrossEntropyLoss(), device)
 
-    # Save the single student model
-    single_student_save_path = config.student_model_path.format(1)
-    torch.save(single_student.state_dict(), single_student_save_path)
-    print(f"Single Student saved to {single_student_save_path}")
+    # # Save the single student model
+    # single_student_save_path = config.student_model_path.format(1)
+    # torch.save(single_student.state_dict(), single_student_save_path)
+    # print(f"Single Student saved to {single_student_save_path}")
+    
+    # Load the single student model
+    single_student_path = "student_1.pth"
+    single_student.load_state_dict(torch.load(single_student_path))
 
     print("\nDuplicating the Single Student:")
     # Load the pre-trained single student model
-    single_student_path = "student_2.pth"  # Ensure this is the correct path to your saved student model
+    single_student_path = "student_1.pth"  # Ensure this is the correct path to your saved student model
 
     students = []
     for i in range(config.num_students):

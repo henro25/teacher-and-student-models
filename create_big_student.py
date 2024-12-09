@@ -490,6 +490,9 @@ def visualize_specialization(moe_model, loader, device, num_classes, num_student
 
     plt.tight_layout()
     plt.show()
+    
+    # Save the plot
+    plt.savefig("specialization.png")
 
 
 def train_moe(moe_model, train_loader, optimizer, criterion, device, epochs=10):

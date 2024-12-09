@@ -1,0 +1,65 @@
+Distilling Teacher Knowledge into a Single Student:
+/usr/local/lib/python3.10/dist-packages/transformers/optimization.py:591: FutureWarning: This implementation of AdamW is deprecated and will be removed in a future version. Use the PyTorch implementation torch.optim.AdamW instead, or set `no_deprecation_warning=True` to disable this warning
+  warnings.warn(
+Distill Loss: 4.7675, Accuracy: 0.4818
+Distill Loss: 3.5553, Accuracy: 0.6410
+Distill Loss: 3.0379, Accuracy: 0.7048
+Distill Loss: 2.7242, Accuracy: 0.7427
+Distill Loss: 2.5245, Accuracy: 0.7630
+Distill Loss: 2.3797, Accuracy: 0.7815
+Distill Loss: 2.2749, Accuracy: 0.7942
+Distill Loss: 2.1855, Accuracy: 0.8025
+Distill Loss: 2.1102, Accuracy: 0.8100
+Distill Loss: 2.0451, Accuracy: 0.8176
+Distill Loss: 1.9798, Accuracy: 0.8254
+Distill Loss: 1.9322, Accuracy: 0.8303
+Distill Loss: 1.8933, Accuracy: 0.8327
+Distill Loss: 1.8660, Accuracy: 0.8352
+Distill Loss: 1.8107, Accuracy: 0.8413
+Distill Loss: 1.7841, Accuracy: 0.8457
+Distill Loss: 1.7586, Accuracy: 0.8454
+Distill Loss: 1.7249, Accuracy: 0.8520
+Distill Loss: 1.7017, Accuracy: 0.8528
+Distill Loss: 1.6818, Accuracy: 0.8542
+Distill Loss: 1.6526, Accuracy: 0.8570
+Distill Loss: 1.6269, Accuracy: 0.8613
+Distill Loss: 1.6040, Accuracy: 0.8625
+Distill Loss: 1.5860, Accuracy: 0.8638
+Distill Loss: 1.5925, Accuracy: 0.8626
+Distill Loss: 1.5523, Accuracy: 0.8664
+Distill Loss: 1.5362, Accuracy: 0.8701
+Distill Loss: 1.5282, Accuracy: 0.8711
+Distill Loss: 1.5120, Accuracy: 0.8714
+Distill Loss: 1.4942, Accuracy: 0.8729
+Distill Loss: 1.4842, Accuracy: 0.8753
+Distill Loss: 1.4750, Accuracy: 0.8756
+Distill Loss: 1.4471, Accuracy: 0.8779
+Distill Loss: 1.4398, Accuracy: 0.8789
+Distill Loss: 1.4297, Accuracy: 0.8804
+Distill Loss: 1.4238, Accuracy: 0.8800
+Distill Loss: 1.3988, Accuracy: 0.8841
+Distill Loss: 1.4025, Accuracy: 0.8831
+Distill Loss: 1.3832, Accuracy: 0.8858
+Distill Loss: 1.3772, Accuracy: 0.8858
+Distill Loss: 1.3678, Accuracy: 0.8859
+Distill Loss: 1.3559, Accuracy: 0.8873
+Distill Loss: 1.3551, Accuracy: 0.8888
+Distill Loss: 1.3528, Accuracy: 0.8884
+Distill Loss: 1.3526, Accuracy: 0.8882
+Distill Loss: 1.3342, Accuracy: 0.8895
+Distill Loss: 1.3409, Accuracy: 0.8898
+Distill Loss: 1.3101, Accuracy: 0.8926
+Distill Loss: 1.3105, Accuracy: 0.8918
+Distill Loss: 1.2986, Accuracy: 0.8934
+Single Student saved to big_student_1.pth
+
+Duplicating the Single Student:
+/content/create_big_student.py:692: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  student.load_state_dict(torch.load(single_student_path))  # Load the weights from the single student
+
+Evaluating the Single Student:
+Unsupported operator aten::max_pool2d encountered 3 time(s)
+Single Student Results:
+Loss: 0.3982, Accuracy: 0.8934
+Latency per Image: 0.001206 secs
+FLOPs per Image: 0.61 MFLOPs

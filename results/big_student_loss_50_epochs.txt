@@ -63,3 +63,21 @@ Single Student Results:
 Loss: 0.3982, Accuracy: 0.8934
 Latency per Image: 0.001206 secs
 FLOPs per Image: 0.61 MFLOPs
+
+Evaluating the BIG Single Student:
+
+Class 0 Accuracy: 0.8710
+Class 1 Accuracy: 0.9540
+Class 2 Accuracy: 0.8380
+Class 3 Accuracy: 0.7480
+Class 4 Accuracy: 0.8950
+Class 5 Accuracy: 0.8700
+Class 6 Accuracy: 0.9450
+Class 7 Accuracy: 0.9360
+Class 8 Accuracy: 0.9350
+Class 9 Accuracy: 0.9420
+
+Single Student Results:
+Loss: 0.3982, Accuracy: 0.8934
+Latency per Image: 0.000975 secs
+FLOPs per Image: 0.61 MFLOPs

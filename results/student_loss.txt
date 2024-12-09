@@ -62,18 +62,17 @@ FLOPs per Image: 0.10 MFLOPs
 
 
 Evaluating the Single Student:
-Unsupported operator aten::max_pool2d encountered 2 time(s)
-Class 3 Accuracy: 0.6930
-Class 8 Accuracy: 0.8760
+
 Class 0 Accuracy: 0.8440
-Class 6 Accuracy: 0.8780
 Class 1 Accuracy: 0.8740
-Class 9 Accuracy: 0.9240
-Class 5 Accuracy: 0.7350
-Class 7 Accuracy: 0.8520
-Class 4 Accuracy: 0.8190
 Class 2 Accuracy: 0.7470
+Class 3 Accuracy: 0.6930
+Class 4 Accuracy: 0.8190
+Class 5 Accuracy: 0.7350
+Class 6 Accuracy: 0.8780
+Class 7 Accuracy: 0.8520
+Class 8 Accuracy: 0.8760
+Class 9 Accuracy: 0.9240
+
 Single Student Results:
 Loss: 0.5772, Accuracy: 0.8242
-Latency per Image: 0.000765 secs
-FLOPs per Image: 0.10 MFLOPs

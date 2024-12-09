@@ -52,3 +52,10 @@ Distill Loss: 1.9470, Accuracy: 0.8382
 Distill Loss: 1.9290, Accuracy: 0.8374
 Distill Loss: 1.9264, Accuracy: 0.8387
 Single Student saved to student_1.pth
+
+Evaluating the Single Student:
+Unsupported operator aten::max_pool2d encountered 2 time(s)
+Single Student Results:
+Loss: 0.5772, Accuracy: 0.8242
+Latency per Image: 0.001170 secs
+FLOPs per Image: 0.10 MFLOPs

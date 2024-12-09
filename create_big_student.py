@@ -18,7 +18,7 @@ class Config:
     num_classes = 10
     batch_size = 64
     lr = 1e-3
-    epochs = 50
+    epochs = 200
     num_students = 4
     num_big_classes = num_students
     hidden_dim = 256

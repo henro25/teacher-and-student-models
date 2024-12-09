@@ -51,6 +51,7 @@ def get_data_loaders():
         transforms.RandomCrop(32, padding=4),
         transforms.ToTensor(),
         transforms.Normalize((0.4914, 0.4822, 0.4465), (0.247, 0.243, 0.261))  # Mean and std of CIFAR-10
+        # transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)), from https://huggingface.co/xn6o/CIFAR_Resnet18/blob/main/eval.ipynb
     ])
 
     # Test transformations (without augmentations)

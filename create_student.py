@@ -160,18 +160,10 @@ class MoE(nn.Module):
         batch_size = x.size(0)
         gating_probs = self.gating_net(x.view(batch_size, -1))  # Router probabilities
         best_experts = gating_probs.argmax(dim=1)  # Selected experts for each input
-        
-        print("best_experts: ", best_experts)
-        print("gating_probs: ", gating_probs)
-        
-        # print shape
-        print("x shape: ", x.shape)
-        print("gating_probs shape: ", gating_probs.shape)
-        print("best_experts shape: ", best_experts.shape)
 
         outputs = torch.zeros(batch_size, self.students[0].network[-1].out_features).to(x.device)
         for i, expert_idx in enumerate(best_experts):
-            outputs[i] = self.students[expert_idx](x).squeeze(0)
+            outputs[i] = self.students[expert_idx](x[i].unsqueeze(0)).squeeze(0)
 
         if return_router_assignments:
             return outputs, best_experts

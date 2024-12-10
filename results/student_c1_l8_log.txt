@@ -1,23 +1,31 @@
 Distilling Teacher Knowledge into a Single Student:
 /usr/local/lib/python3.10/dist-packages/transformers/optimization.py:591: FutureWarning: This implementation of AdamW is deprecated and will be removed in a future version. Use the PyTorch implementation torch.optim.AdamW instead, or set `no_deprecation_warning=True` to disable this warning
   warnings.warn(
-Distill Loss: 3.1229, Accuracy: 0.4810
-Distill Loss: 2.0227, Accuracy: 0.6214
-Distill Loss: 1.6420, Accuracy: 0.6742
-Distill Loss: 1.4324, Accuracy: 0.7004
-Distill Loss: 1.2860, Accuracy: 0.7213
-Distill Loss: 1.1904, Accuracy: 0.7357
-Distill Loss: 1.1150, Accuracy: 0.7482
-Distill Loss: 1.0543, Accuracy: 0.7565
-Distill Loss: 0.9945, Accuracy: 0.7662
-Distill Loss: 0.9578, Accuracy: 0.7751
-Distill Loss: 0.9200, Accuracy: 0.7787
-Distill Loss: 0.8809, Accuracy: 0.7844
-Distill Loss: 0.8535, Accuracy: 0.7896
-Distill Loss: 0.8303, Accuracy: 0.7928
-Distill Loss: 0.8157, Accuracy: 0.7956
-Distill Loss: 0.7999, Accuracy: 0.8009
-Distill Loss: 0.7713, Accuracy: 0.8034
-Distill Loss: 0.7562, Accuracy: 0.8060
-Distill Loss: 0.7487, Accuracy: 0.8080
-Distill Loss: 0.7334, Accuracy: 0.8116
+Distill Loss: 3.1915, Accuracy: 0.4707
+Distill Loss: 2.0442, Accuracy: 0.6153
+Distill Loss: 1.6644, Accuracy: 0.6689
+Distill Loss: 1.4342, Accuracy: 0.7016
+Distill Loss: 1.3028, Accuracy: 0.7216
+Distill Loss: 1.1928, Accuracy: 0.7378
+Distill Loss: 1.0997, Accuracy: 0.7518
+Distill Loss: 1.0415, Accuracy: 0.7596
+Distill Loss: 0.9855, Accuracy: 0.7692
+Distill Loss: 0.9427, Accuracy: 0.7776
+Distill Loss: 0.9168, Accuracy: 0.7814
+Distill Loss: 0.8796, Accuracy: 0.7863
+Distill Loss: 0.8492, Accuracy: 0.7923
+Distill Loss: 0.8233, Accuracy: 0.7970
+Distill Loss: 0.8037, Accuracy: 0.8023
+Distill Loss: 0.7804, Accuracy: 0.8030
+Distill Loss: 0.7633, Accuracy: 0.8061
+Distill Loss: 0.7509, Accuracy: 0.8091
+Distill Loss: 0.7385, Accuracy: 0.8115
+Distill Loss: 0.7257, Accuracy: 0.8162
+Single Student saved to student_c1_l8.pth
+
+Evaluating the Single Student:
+WARNING:fvcore.nn.jit_analysis:Unsupported operator aten::max_pool2d encountered 2 time(s)
+Single Student Results:
+Loss: 0.5789, Accuracy: 0.8103
+Latency per Image: 0.000582 secs
+FLOPs per Image: 0.22 MFLOPs

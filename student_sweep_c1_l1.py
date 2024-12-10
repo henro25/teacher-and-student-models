@@ -744,7 +744,7 @@ def main():
 
     # Evaluate the single student on the validation dataset
     print("\nEvaluating the Single Student:")
-    evaluate_with_metrics(students[0], test_loader, device, description="Single Student")
+    evaluate_with_metrics(single_student, test_loader, device, description="Single Student")
 
     print("\nDuplicating the Single Student:")
     students = []

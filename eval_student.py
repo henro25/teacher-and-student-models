@@ -69,7 +69,7 @@ def get_data_loaders():
 
 class StudentModel(nn.Module):
     def __init__(self, lambda_value):
-        super(StudentModel, self, lambda_value).__init__()
+        super(StudentModel, self).__init__()
         self.network = nn.Sequential(
             nn.Conv2d(3, 32, kernel_size=3, padding=1),
             nn.ReLU(),
@@ -78,9 +78,9 @@ class StudentModel(nn.Module):
             nn.ReLU(),
             nn.MaxPool2d(2, 2),
             nn.Flatten(),
-            nn.Linear(8 * 8 * 64, config.hidden_dim * lambda_value),
+            nn.Linear(8 * 8 * 64, int(config.hidden_dim * lambda_value)),
             nn.ReLU(),
-            nn.Linear(config.hidden_dim * lambda_value, config.num_classes)
+            nn.Linear(int(config.hidden_dim * lambda_value), config.num_classes)
         )
 
     def forward(self, x):
@@ -147,11 +147,14 @@ def main():
         # this is the lambda value
         lambda_value = float(student_model_path.split('_l')[1].split('.pth')[0])
         
+        print(lambda_value)
+        
         student = StudentModel(lambda_value).to(device)
         student.load_state_dict(torch.load(f"{student_model_folder}/{student_model_path}"))
         students.append(student)
         print(f"Student {i + 1} loaded from {student_model_path}")
         evaluate_with_metrics(student, test_loader, device, description=f"Student {i + 1}")
+        print("\n")
 
 
 if __name__ == "__main__":

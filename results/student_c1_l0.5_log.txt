@@ -21,3 +21,43 @@ Distill Loss: 1.0566, Accuracy: 0.7520
 Distill Loss: 1.0360, Accuracy: 0.7564
 Distill Loss: 1.0193, Accuracy: 0.7557
 Distill Loss: 1.0087, Accuracy: 0.7580
+
+Student Results:
+Loss: 0.6763, Accuracy: 0.7799
+Latency per Image: 0.000623 secs
+FLOPs per Image: 0.10 MFLOPs
+
+Joint Training of Mixture of Experts (MoE):
+<ipython-input-3-018aa4b8be68>:753: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  student.load_state_dict(torch.load(single_student_save_path))
+/usr/local/lib/python3.10/dist-packages/transformers/optimization.py:591: FutureWarning: This implementation of AdamW is deprecated and will be removed in a future version. Use the PyTorch implementation torch.optim.AdamW instead, or set `no_deprecation_warning=True` to disable this warning
+  warnings.warn(
+Epoch 1/20 - MoE Loss: 0.6963, Accuracy: 0.7597
+Epoch 2/20 - MoE Loss: 0.6696, Accuracy: 0.7703
+Epoch 3/20 - MoE Loss: 0.6399, Accuracy: 0.7780
+Epoch 4/20 - MoE Loss: 0.6254, Accuracy: 0.7831
+Epoch 5/20 - MoE Loss: 0.6116, Accuracy: 0.7873
+Epoch 6/20 - MoE Loss: 0.6004, Accuracy: 0.7886
+Epoch 7/20 - MoE Loss: 0.5788, Accuracy: 0.7974
+Epoch 8/20 - MoE Loss: 0.5623, Accuracy: 0.8055
+Epoch 9/20 - MoE Loss: 0.5467, Accuracy: 0.8112
+Epoch 10/20 - MoE Loss: 0.5333, Accuracy: 0.8138
+Epoch 11/20 - MoE Loss: 0.5119, Accuracy: 0.8217
+Epoch 12/20 - MoE Loss: 0.4990, Accuracy: 0.8266
+Epoch 13/20 - MoE Loss: 0.4816, Accuracy: 0.8317
+Epoch 14/20 - MoE Loss: 0.4753, Accuracy: 0.8332
+Epoch 15/20 - MoE Loss: 0.4566, Accuracy: 0.8415
+Epoch 16/20 - MoE Loss: 0.4451, Accuracy: 0.8446
+Epoch 17/20 - MoE Loss: 0.4382, Accuracy: 0.8460
+Epoch 18/20 - MoE Loss: 0.4277, Accuracy: 0.8493
+Epoch 19/20 - MoE Loss: 0.4264, Accuracy: 0.8502
+Epoch 20/20 - MoE Loss: 0.4249, Accuracy: 0.8518
+
+Evaluating Mixture of Experts (MoE):
+WARNING:fvcore.nn.jit_analysis:Unsupported operator aten::max_pool2d encountered 2 time(s)
+WARNING:fvcore.nn.jit_analysis:The following submodules of the model were never called during the trace of the graph. They may be unused, or they were accessed by direct calls to .forward() or via other python methods. In the latter case they will have zeros for statistics, though their statistics will still contribute to their parent calling module.
+gating_net, gating_net.conv_layers, gating_net.conv_layers.0, gating_net.conv_layers.1, gating_net.conv_layers.2, gating_net.conv_layers.3, gating_net.conv_layers.4, gating_net.conv_layers.5, gating_net.conv_layers.6, gating_net.conv_layers.7, gating_net.fc_layers, gating_net.fc_layers.0, gating_net.fc_layers.1, gating_net.fc_layers.2, gating_net.fc_layers.3, gating_net.fc_layers.4, students.1, students.1.network, students.1.network.0, students.1.network.1, students.1.network.2, students.1.network.3, students.1.network.4, students.1.network.5, students.1.network.6, students.1.network.7, students.1.network.8, students.1.network.9, students.2, students.2.network, students.2.network.0, students.2.network.1, students.2.network.2, students.2.network.3, students.2.network.4, students.2.network.5, students.2.network.6, students.2.network.7, students.2.network.8, students.2.network.9
+MoE Results:
+Loss: 0.5378, Accuracy: 0.8249
+Latency per Image: 0.001302 secs
+FLOPs per Image: 0.10 MFLOPs

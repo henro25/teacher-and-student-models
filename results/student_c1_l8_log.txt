@@ -29,3 +29,4 @@ Single Student Results:
 Loss: 0.5789, Accuracy: 0.8103
 Latency per Image: 0.000582 secs
 FLOPs per Image: 0.22 MFLOPs
+

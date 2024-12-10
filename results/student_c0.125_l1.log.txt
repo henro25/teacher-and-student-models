@@ -1,0 +1,69 @@
+Distilling Teacher Knowledge into a Single Student:
+/usr/local/lib/python3.10/dist-packages/transformers/optimization.py:591: FutureWarning: This implementation of AdamW is deprecated and will be removed in a future version. Use the PyTorch implementation torch.optim.AdamW instead, or set `no_deprecation_warning=True` to disable this warning
+  warnings.warn(
+Distill Loss: 4.3664, Accuracy: 0.3345
+Distill Loss: 3.6803, Accuracy: 0.4136
+Distill Loss: 3.4067, Accuracy: 0.4480
+Distill Loss: 3.2223, Accuracy: 0.4712
+Distill Loss: 3.0709, Accuracy: 0.4941
+Distill Loss: 2.9496, Accuracy: 0.5117
+Distill Loss: 2.8236, Accuracy: 0.5267
+Distill Loss: 2.7452, Accuracy: 0.5342
+Distill Loss: 2.6741, Accuracy: 0.5441
+Distill Loss: 2.5884, Accuracy: 0.5555
+Distill Loss: 2.5427, Accuracy: 0.5598
+Distill Loss: 2.5014, Accuracy: 0.5637
+Distill Loss: 2.4622, Accuracy: 0.5724
+Distill Loss: 2.4210, Accuracy: 0.5755
+Distill Loss: 2.3944, Accuracy: 0.5794
+Distill Loss: 2.3574, Accuracy: 0.5831
+Distill Loss: 2.3225, Accuracy: 0.5877
+Distill Loss: 2.3071, Accuracy: 0.5899
+Distill Loss: 2.2788, Accuracy: 0.5922
+Distill Loss: 2.2537, Accuracy: 0.5958
+Single Student saved to student_c2_l0.5.pth
+
+Evaluating the Single Student:
+WARNING:fvcore.nn.jit_analysis:Unsupported operator aten::max_pool2d encountered 2 time(s)
+Single Student Results:
+Loss: 1.1425, Accuracy: 0.6246
+Latency per Image: 0.001757 secs
+FLOPs per Image: 0.00 MFLOPs
+
+Duplicating the Single Student:
+3 Students initialized by duplicating the Single Student model.
+
+Joint Training of Mixture of Experts (MoE):
+<ipython-input-3-7dff135fb5ec>:753: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  student.load_state_dict(torch.load(single_student_save_path))
+/usr/local/lib/python3.10/dist-packages/transformers/optimization.py:591: FutureWarning: This implementation of AdamW is deprecated and will be removed in a future version. Use the PyTorch implementation torch.optim.AdamW instead, or set `no_deprecation_warning=True` to disable this warning
+  warnings.warn(
+Epoch 1/20 - MoE Loss: 1.0867, Accuracy: 0.6236
+Epoch 2/20 - MoE Loss: 1.0458, Accuracy: 0.6336
+Epoch 3/20 - MoE Loss: 1.0322, Accuracy: 0.6381
+Epoch 4/20 - MoE Loss: 1.0191, Accuracy: 0.6449
+Epoch 5/20 - MoE Loss: 1.0058, Accuracy: 0.6467
+Epoch 6/20 - MoE Loss: 0.9954, Accuracy: 0.6555
+Epoch 7/20 - MoE Loss: 0.9843, Accuracy: 0.6559
+Epoch 8/20 - MoE Loss: 0.9688, Accuracy: 0.6625
+Epoch 9/20 - MoE Loss: 0.9563, Accuracy: 0.6669
+Epoch 10/20 - MoE Loss: 0.9464, Accuracy: 0.6704
+Epoch 11/20 - MoE Loss: 0.9395, Accuracy: 0.6744
+Epoch 12/20 - MoE Loss: 0.9232, Accuracy: 0.6786
+Epoch 13/20 - MoE Loss: 0.9115, Accuracy: 0.6817
+Epoch 14/20 - MoE Loss: 0.9076, Accuracy: 0.6857
+Epoch 15/20 - MoE Loss: 0.8983, Accuracy: 0.6852
+Epoch 16/20 - MoE Loss: 0.8869, Accuracy: 0.6919
+Epoch 17/20 - MoE Loss: 0.8784, Accuracy: 0.6929
+Epoch 18/20 - MoE Loss: 0.8812, Accuracy: 0.6925
+Epoch 19/20 - MoE Loss: 0.8717, Accuracy: 0.6910
+Epoch 20/20 - MoE Loss: 0.8747, Accuracy: 0.6942
+
+Evaluating Mixture of Experts (MoE):
+WARNING:fvcore.nn.jit_analysis:Unsupported operator aten::max_pool2d encountered 2 time(s)
+WARNING:fvcore.nn.jit_analysis:The following submodules of the model were never called during the trace of the graph. They may be unused, or they were accessed by direct calls to .forward() or via other python methods. In the latter case they will have zeros for statistics, though their statistics will still contribute to their parent calling module.
+gating_net, gating_net.conv_layers, gating_net.conv_layers.0, gating_net.conv_layers.1, gating_net.conv_layers.2, gating_net.conv_layers.3, gating_net.conv_layers.4, gating_net.conv_layers.5, gating_net.conv_layers.6, gating_net.conv_layers.7, gating_net.fc_layers, gating_net.fc_layers.0, gating_net.fc_layers.1, gating_net.fc_layers.2, gating_net.fc_layers.3, gating_net.fc_layers.4, students.1, students.1.network, students.1.network.0, students.1.network.1, students.1.network.2, students.1.network.3, students.1.network.4, students.1.network.5, students.1.network.6, students.1.network.7, students.1.network.8, students.1.network.9, students.2, students.2.network, students.2.network.0, students.2.network.1, students.2.network.2, students.2.network.3, students.2.network.4, students.2.network.5, students.2.network.6, students.2.network.7, students.2.network.8, students.2.network.9
+MoE Results:
+Loss: 0.8715, Accuracy: 0.7019
+Latency per Image: 0.001142 secs
+FLOPs per Image: 0.00 MFLOPs

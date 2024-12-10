@@ -655,8 +655,8 @@ def main():
     teacher.load_state_dict(torch.load("resnet18_cifar10_tailored_epoch20.pth"))
     teacher.to(device)
 
-    print(f"\nEvaluating Teacher:")
-    evaluate_with_metrics(teacher, test_loader, device, description="Teacher")
+    # print(f"\nEvaluating Teacher:")
+    # evaluate_with_metrics(teacher, test_loader, device, description="Teacher")
 
     # Step 2: Create the big class map from the teacher's logits
     print("\nCreating Big Class Map from Teacher:")

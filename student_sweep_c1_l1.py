@@ -18,7 +18,7 @@ class Config:
     num_classes = 10
     batch_size = 64
     lr = 1e-3
-    epochs = 1
+    epochs = 20
     num_students = 3
     num_big_classes = num_students
     hidden_dim = 256
@@ -698,21 +698,21 @@ def main():
 
 
     # Evaluate the router's accuracy based on cluster labels
-    print("\nEvaluating Router Based on Cluster Labels:")
-    evaluate_router_with_cluster_labels(
-        router=router,
-        loader=test_loader,
-        device=device,
-        big_class_map=big_class_map
-    )
+    # print("\nEvaluating Router Based on Cluster Labels:")
+    # evaluate_router_with_cluster_labels(
+    #     router=router,
+    #     loader=test_loader,
+    #     device=device,
+    #     big_class_map=big_class_map
+    # )
 
-    print("\nEvaluating Router Cluster-wise Validation Accuracies:")
-    cluster_accuracies = evaluate_router_cluster_accuracies(
-        router=router,
-        loader=test_loader,
-        device=device,
-        big_class_map=big_class_map
-    )
+    # print("\nEvaluating Router Cluster-wise Validation Accuracies:")
+    # cluster_accuracies = evaluate_router_cluster_accuracies(
+    #     router=router,
+    #     loader=test_loader,
+    #     device=device,
+    #     big_class_map=big_class_map
+    # )
 
 
 

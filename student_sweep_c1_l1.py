@@ -368,6 +368,7 @@ def visualize_specialization(moe_model, loader, device, num_classes, num_student
 
     plt.tight_layout()
     plt.show()
+    plt.savefig("specialization.png")
 
 
 def train_moe(moe_model, train_loader, optimizer, criterion, device, epochs=10):
@@ -455,6 +456,7 @@ def visualize_router_assignments(router, loader, num_classes, num_students, devi
     plt.grid(axis='y', linestyle='--', alpha=0.7)  # Add a grid for better readability
     plt.tight_layout()  # Adjust layout to fit everything properly
     plt.show()
+    plt.savefig("router_assignments.png")
 
 def train_teacher(teacher, train_loader, test_loader, device, epochs=10, lr=1e-3):
     teacher.train()
@@ -680,14 +682,19 @@ def main():
 
     # Step 4: Fine-tune the router directly using cluster labels
     print("\nFine-tuning Router with Hard Cluster Labels and Cosine Annealing:")
-    fine_tune_router_with_hard_labels(
-        router=router,
-        train_loader=train_loader,
-        device=device,
-        big_class_map=big_class_map,
-        epochs=20,  # Adjust epochs as needed
-        lr=config.lr  # Use initial learning rate
-    )
+    # fine_tune_router_with_hard_labels(
+    #     router=router,
+    #     train_loader=train_loader,
+    #     device=device,
+    #     big_class_map=big_class_map,
+    #     epochs=20,  # Adjust epochs as needed
+    #     lr=config.lr  # Use initial learning rate
+    # )
+    
+    # Load the pre-trained router model
+    router_path = "router_epoch20.pth"
+    router.load_state_dict(torch.load(router_path))
+    print(f"Router loaded from {router_path}")
 
 
     # Evaluate the router's accuracy based on cluster labels
@@ -711,10 +718,6 @@ def main():
 
     print("\nVisualizing Router Assignments:")
     visualize_router_assignments(router, test_loader, config.num_classes, config.num_students, device)
-    
-    # save the router model
-    router_save_path = "router.pth"
-    torch.save(router.state_dict(), router_save_path)
 
     # # Step 6: Distill teacher knowledge into students
     print("\nDistilling Teacher Knowledge into a Single Student:")
@@ -725,7 +728,7 @@ def main():
         distill_teacher_to_student(teacher, single_student, train_loader, optimizer_student, nn.CrossEntropyLoss(), device)
 
     # Save the single student model
-    single_student_save_path = config.student_model_path.format(1)
+    single_student_save_path = "student_c1_l1.pth"
     torch.save(single_student.state_dict(), single_student_save_path)
     print(f"Single Student saved to {single_student_save_path}")
 
@@ -742,10 +745,6 @@ def main():
     # Evaluate the single student on the validation dataset
     print("\nEvaluating the Single Student:")
     evaluate_with_metrics(students[0], test_loader, device, description="Single Student")
-    
-    # Save the single student model
-    single_student_save_path = "student_c1_l1.pth"
-    torch.save(single_student.state_dict(), single_student_save_path)
 
     print("\nDuplicating the Single Student:")
     students = []

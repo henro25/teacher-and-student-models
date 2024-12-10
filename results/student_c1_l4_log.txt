@@ -1,0 +1,23 @@
+Distilling Teacher Knowledge into a Single Student:
+/usr/local/lib/python3.10/dist-packages/transformers/optimization.py:591: FutureWarning: This implementation of AdamW is deprecated and will be removed in a future version. Use the PyTorch implementation torch.optim.AdamW instead, or set `no_deprecation_warning=True` to disable this warning
+  warnings.warn(
+Distill Loss: 3.1779, Accuracy: 0.4785
+Distill Loss: 2.0398, Accuracy: 0.6187
+Distill Loss: 1.6396, Accuracy: 0.6724
+Distill Loss: 1.4225, Accuracy: 0.7031
+Distill Loss: 1.2774, Accuracy: 0.7233
+Distill Loss: 1.1744, Accuracy: 0.7370
+Distill Loss: 1.0972, Accuracy: 0.7508
+Distill Loss: 1.0415, Accuracy: 0.7586
+Distill Loss: 0.9915, Accuracy: 0.7662
+Distill Loss: 0.9512, Accuracy: 0.7731
+Distill Loss: 0.9169, Accuracy: 0.7790
+Distill Loss: 0.8853, Accuracy: 0.7822
+Distill Loss: 0.8602, Accuracy: 0.7855
+Distill Loss: 0.8376, Accuracy: 0.7917
+Distill Loss: 0.8163, Accuracy: 0.7939
+Distill Loss: 0.7962, Accuracy: 0.7995
+Distill Loss: 0.7757, Accuracy: 0.8017
+Distill Loss: 0.7628, Accuracy: 0.8041
+Distill Loss: 0.7489, Accuracy: 0.8079
+Distill Loss: 0.7397, Accuracy: 0.8076

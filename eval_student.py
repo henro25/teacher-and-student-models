@@ -68,7 +68,7 @@ def get_data_loaders():
     return train_loader, test_loader
 
 class StudentModel(nn.Module):
-    def __init__(self):
+    def __init__(self, lambda_value):
         super(StudentModel, self).__init__()
         self.network = nn.Sequential(
             nn.Conv2d(3, 32, kernel_size=3, padding=1),
@@ -78,9 +78,9 @@ class StudentModel(nn.Module):
             nn.ReLU(),
             nn.MaxPool2d(2, 2),
             nn.Flatten(),
-            nn.Linear(8 * 8 * 64, config.hidden_dim),
+            nn.Linear(8 * 8 * 64, config.hidden_dim * lambda_value),
             nn.ReLU(),
-            nn.Linear(config.hidden_dim, config.num_classes)
+            nn.Linear(config.hidden_dim * lambda_value, config.num_classes)
         )
 
     def forward(self, x):
@@ -143,7 +143,11 @@ def main():
     # For each student model, load the weights and evaluate
     students = []
     for i, student_model_path in enumerate(student_model_paths):
-        student = StudentModel().to(device)
+        # find the number after l and before '.' in the student model path
+        # this is the lambda value
+        lambda_value = float(student_model_path.split('_l')[1].split('.pth')[0])
+        
+        student = StudentModel(lambda_value).to(device)
         student.load_state_dict(torch.load(f"{student_model_folder}/{student_model_path}"))
         students.append(student)
         print(f"Student {i + 1} loaded from {student_model_path}")

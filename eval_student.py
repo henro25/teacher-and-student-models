@@ -69,7 +69,7 @@ def get_data_loaders():
 
 class StudentModel(nn.Module):
     def __init__(self, lambda_value):
-        super(StudentModel, self).__init__()
+        super(StudentModel, self, lambda_value).__init__()
         self.network = nn.Sequential(
             nn.Conv2d(3, 32, kernel_size=3, padding=1),
             nn.ReLU(),
